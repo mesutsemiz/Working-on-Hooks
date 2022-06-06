@@ -4,9 +4,7 @@ const Employee = (props) => {
   return (
     
     <>
-      {props.employees.map((employee) => {
-        console.log(employee),
-        <tr key={employee.id}>
+      {props.employees.map((employee) => ( <tr key={employee.id}>
           <td>{employee.name}</td>
           <td>{employee.email}</td>
           <td>{employee.address}</td>
@@ -31,8 +29,7 @@ const Employee = (props) => {
               </i>
             </a>
           </td>
-        </tr>;
-      })}
+        </tr>))}
     </>
   );
 };

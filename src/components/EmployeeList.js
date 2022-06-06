@@ -1,59 +1,76 @@
-import React, { useState } from 'react';
+import React, { useContext,useState,useEffect } from 'react';
 import Employee from './Employee';
+import { EmployeeContext } from '../context/EmployeeContext';
+import { Button, Modal } from 'react-bootstrap';
+import AddForm from './AddForm';
+import "../index.css"
+
 const EmployeeList = () => {
-  const [employees, setEmployees] = useState([
-    {
-      id: 1,
-      name: "Brent O'Neill",
-      email: 'erat.vitae@icloud.org',
-      phone: '(810) 544-8385',
-      address: 'Ap #811-2315 Cras Av.',
-    },
-    {
-      id: 2,
-      name: 'Steel Hardin',
-      email: 'sed.nulla@icloud.net',
-      phone: '(786) 565-5158',
-      address: 'Ap #899-3755 Magna. St.',
-    },
-    {
-      id: 3,
-      name: 'Zephr Gilliam',
-      email: 'erat@hotmail.net',
-      phone: '1-618-954-1461',
-      address: 'Ap #129-7011 Ac, Avenue',
-    },
-    {
-      id: 4,
-      name: 'Karina Workman',
-      email: 'sem.consequat.nec@outlook.edu',
-      phone: '1-972-498-3566',
-      address: 'Ap #610-7541 Taciti St.',
-    },
-    {
-      id: 5,
-      name: 'Joshua Head',
-      email: 'luctus.vulputate@icloud.ca',
-      phone: '(287) 781-6946',
-      address: 'P.O. Box 900, 8613 Egestas. Rd.',
-    },
-  ]);
+  const { employees } = useContext(EmployeeContext);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  
+  useEffect(()=>{
+    handleClose()
+  },[employees])
 
   return (
-    <table className="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Address</th>
-          <th>Phone</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <Employee employees={employees} />
-      </tbody>
-    </table>
+    <>
+      <div className="table-title">
+        <div className="row">
+          <div className="col-sm-6">
+            <h2>
+              Manage <b></b>Employees
+            </h2>
+          </div>
+          <div className="col-sm-6">
+            <Button
+              variant="primary"
+              onClick={handleShow}
+              className="btn btn-success text-white"
+              data-toggle="modal"
+            >
+              <i className="material-icons">&#xE147;</i>{' '}
+              <span>Add New Employee</span>
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <table className="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <Employee employees={employees} />
+        </tbody>
+      </table>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header className="modal-header" closeButton={handleClose}>
+          <Modal.Title>Add employee</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="modal-body">
+          <AddForm />
+        </Modal.Body>
+        <Modal.Footer  className="modal-footer">
+          <Button variant="secondary" onClick={handleClose}  className="modal-button">
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose} className="modal-button">
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 
