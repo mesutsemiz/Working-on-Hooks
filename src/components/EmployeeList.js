@@ -1,24 +1,33 @@
-import React, { useContext,useState,useEffect} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Employee from './Employee';
 import { EmployeeContext } from '../context/EmployeeContext';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Alert } from 'react-bootstrap';
 import AddForm from './AddForm';
-import "../index.css"
+import '../index.css';
 
 const EmployeeList = () => {
-  const { employees } = useContext(EmployeeContext);
+  const { sortedEmployees } = useContext(EmployeeContext);
   const [show, setShow] = useState(false);
+
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
-  useEffect(()=>{
-    handleClose()
-  },[employees])
+  // const handleShowAlert = () => setShowAlert(true);
 
+  const handleShowAlert=()=>{
+    setShowAlert(true)
+    setTimeout(()=>{
+      setShowAlert(false)
+    },3000)
+  }
 
+  useEffect(() => {
+    handleClose();
 
-
+    return ()=>handleShowAlert();
+    
+  }, [sortedEmployees]);
 
   return (
     <>
@@ -43,6 +52,14 @@ const EmployeeList = () => {
         </div>
       </div>
 
+      <Alert
+        show={showAlert}
+        variant="success"
+       
+      >
+        employye list succesfully updated
+      </Alert>
+
       <table className="table table-striped table-hover">
         <thead>
           <tr>
@@ -54,13 +71,11 @@ const EmployeeList = () => {
           </tr>
         </thead>
         <tbody>
-         {
-           employees.map((employee)=>(
-             <tr>
-                <Employee employee={employee} />
-             </tr>
-           ))
-         }
+          {sortedEmployees.map((employee) => (
+            <tr>
+              <Employee employee={employee} />
+            </tr>
+          ))}
         </tbody>
       </table>
 
@@ -71,19 +86,31 @@ const EmployeeList = () => {
         <Modal.Body className="modal-body">
           <AddForm />
         </Modal.Body>
-        <Modal.Footer  className="modal-footer">
-          <Button variant="secondary" onClick={handleClose}  className="modal-button">
+        <Modal.Footer className="modal-footer">
+          <Button
+            variant="secondary"
+            onClick={handleClose}
+            className="modal-button"
+          >
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose} className="modal-button">
+          <Button
+            variant="primary"
+            onClick={handleClose}
+            className="modal-button"
+          >
             Save Changes
           </Button>
         </Modal.Footer>
       </Modal>
-
-
     </>
   );
 };
 
 export default EmployeeList;
+
+//SORT METHOD
+
+// sort((a,b)=>a.name.localeCompare(b.name))
+
+//sort((a,b)=>a.name.localeCompare(b.name))
