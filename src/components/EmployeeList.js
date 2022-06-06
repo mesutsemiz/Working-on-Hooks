@@ -1,4 +1,4 @@
-import React, { useContext,useState,useEffect } from 'react';
+import React, { useContext,useState,useEffect} from 'react';
 import Employee from './Employee';
 import { EmployeeContext } from '../context/EmployeeContext';
 import { Button, Modal } from 'react-bootstrap';
@@ -15,6 +15,10 @@ const EmployeeList = () => {
   useEffect(()=>{
     handleClose()
   },[employees])
+
+
+
+
 
   return (
     <>
@@ -50,7 +54,13 @@ const EmployeeList = () => {
           </tr>
         </thead>
         <tbody>
-          <Employee employees={employees} />
+         {
+           employees.map((employee)=>(
+             <tr>
+                <Employee employee={employee} />
+             </tr>
+           ))
+         }
         </tbody>
       </table>
 
@@ -70,6 +80,8 @@ const EmployeeList = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+
     </>
   );
 };
