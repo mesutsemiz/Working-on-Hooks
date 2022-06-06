@@ -5,6 +5,8 @@ import { Button, Modal, Alert } from 'react-bootstrap';
 import AddForm from './AddForm';
 import '../index.css';
 
+import Pagination from "./Pagination"
+
 const EmployeeList = () => {
   const { sortedEmployees } = useContext(EmployeeContext);
   const [show, setShow] = useState(false);
@@ -26,7 +28,7 @@ const EmployeeList = () => {
     handleClose();
 
     return ()=>handleShowAlert();
-    
+
   }, [sortedEmployees]);
 
   return (
@@ -103,6 +105,8 @@ const EmployeeList = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <Pagination/>
     </>
   );
 };
