@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect,useReducer } from 'react';
 import Employee from './Employee';
 import { EmployeeContext } from '../context/EmployeeContext';
 import { Button, Modal, Alert } from 'react-bootstrap';
@@ -38,7 +38,23 @@ const [employeesPerPage,seEmployeesPerPage] =useState(2)
   const currentEmployees=sortedEmployees.slice(indexOfFirstEmployee, indexOfLastEmployee)
   const totalPagesNum = Math.ceil(sortedEmployees.length/employeesPerPage)
 
-  console.log(indexOfFirstEmployee)
+  const reducer=(state,action) =>{
+    switch(action.type){
+
+      case "INCREMENT":
+      return {count:state.count+1}
+
+      case "DECREMENT":
+        return {count:state.count-1}
+
+        default:
+          throw new Error();
+
+    }
+  }
+
+const  initialState = {count:0};
+const[state,dispatch]=useReducer(reducer,initialState)
 
   return (
     <>
@@ -116,6 +132,10 @@ const [employeesPerPage,seEmployeesPerPage] =useState(2)
       </Modal>
 
       <Pagination pages={totalPagesNum} setCurrentPage={setCurrentPage}/>
+
+      Count : {state.count}
+      <button onClick={()=>dispatch({type:"INCREMENT"})}>+</button>
+      <button onClick={()=>dispatch({type:"DECREMENT"})}>-</button>
     </>
   );
 };

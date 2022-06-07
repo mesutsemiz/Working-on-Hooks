@@ -5,7 +5,7 @@ import EditForm from "./EditForm"
 
 const Employee = ({ employee }) => {
   const[show, setShow]=useState(false)
-  const { deleteEmployee } = useContext(EmployeeContext);
+  const { dispatch } = useContext(EmployeeContext);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -26,7 +26,7 @@ const Employee = ({ employee }) => {
           </i>
         </button>
         <button
-          onClick={() => deleteEmployee(employee.id)}
+          onClick={() => dispatch({type:"remove_employee", id:employee.id})}
           className="btn text-danger"
           data-toggle="modal"
         >
