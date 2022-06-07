@@ -10,8 +10,10 @@ import Pagination from "./Pagination"
 const EmployeeList = () => {
   const { sortedEmployees } = useContext(EmployeeContext);
   const [show, setShow] = useState(false);
-
   const [showAlert, setShowAlert] = useState(false);
+const [currentPage, setCurrentPage] = useState(1)
+const [employeesPerPage,seEmployeesPerPage] =useState(3)
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -30,6 +32,11 @@ const EmployeeList = () => {
     return ()=>handleShowAlert();
 
   }, [sortedEmployees]);
+
+  const indexOfLastEmployee= currentPage * employeesPerPage
+  const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage
+  const currentEmployees=sortedEmployees.slice(indexOfFirstEmployee, indexOfLastEmployee)
+  const totalPagesNum = Math.ceil(sortedEmployees.length/employeesPerPage)
 
   return (
     <>
@@ -73,7 +80,7 @@ const EmployeeList = () => {
           </tr>
         </thead>
         <tbody>
-          {sortedEmployees.map((employee) => (
+          {currentEmployees.map((employee) => (
             <tr>
               <Employee employee={employee} />
             </tr>
@@ -106,7 +113,7 @@ const EmployeeList = () => {
         </Modal.Footer>
       </Modal>
 
-      <Pagination/>
+      <Pagination pages={totalPagesNum} setCurrentPage={setCurrentPage}/>
     </>
   );
 };
