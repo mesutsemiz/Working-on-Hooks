@@ -1,5 +1,5 @@
 import React from 'react';
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 export const EmployeeContext = createContext();
@@ -42,6 +42,15 @@ const EmployeeContextProvider = (props) => {
       address: 'P.O. Box 900, 8613 Egestas. Rd.',
     },
   ]);
+
+  useEffect(()=>{
+    const employees= localStorage.getItem("employees")
+    setEmployees(JSON.parse(employees))
+  },[])
+
+  useEffect(()=>{
+    localStorage.setItem("employees", JSON.stringify(employees))
+  })
 
   const sortedEmployees=employees.sort((a,b)=>a.name.localeCompare(b.name))
 

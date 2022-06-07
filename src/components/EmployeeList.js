@@ -12,7 +12,7 @@ const EmployeeList = () => {
   const [show, setShow] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 const [currentPage, setCurrentPage] = useState(1)
-const [employeesPerPage,seEmployeesPerPage] =useState(3)
+const [employeesPerPage,seEmployeesPerPage] =useState(2)
 
 
   const handleClose = () => setShow(false);
@@ -37,6 +37,8 @@ const [employeesPerPage,seEmployeesPerPage] =useState(3)
   const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage
   const currentEmployees=sortedEmployees.slice(indexOfFirstEmployee, indexOfLastEmployee)
   const totalPagesNum = Math.ceil(sortedEmployees.length/employeesPerPage)
+
+  console.log(indexOfFirstEmployee)
 
   return (
     <>
